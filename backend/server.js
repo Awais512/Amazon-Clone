@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 dotenv.config({ path: 'backend/config/config.env' });
 const connectDb = require('./config/db');
+const errorMiddleware = require('./middlewares/error');
 
 //import route files
 const productRoutes = require('./routes/productRoutes');
@@ -18,6 +19,9 @@ if (process.env.NODE_ENV === 'development') {
 
 //Mounting Routes Middleware
 app.use('/api/v1/products', productRoutes);
+
+//Error Handler
+app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () =>
   console.log(
