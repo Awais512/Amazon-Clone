@@ -1,10 +1,19 @@
 const app = require('./app');
 const express = require('express');
 const morgan = require('morgan');
-const dotenv = require('dotenv');
-dotenv.config({ path: 'backend/config/config.env' });
 const connectDb = require('./config/db');
 const errorMiddleware = require('./middlewares/error');
+const dotenv = require('dotenv');
+
+//Handle Uncaught Exceptions
+
+process.on('uncaughtException', (err) => {
+  console.log(`Error: ${err.message}`);
+  console.log('Shutting down the server');
+  process.exit(1);
+});
+
+dotenv.config({ path: 'backend/config/config.env' });
 
 //import route files
 const productRoutes = require('./routes/productRoutes');
