@@ -1,10 +1,12 @@
+const Product = require('../models/productModel');
 const asyncHandler = require('express-async-handler');
 
 //@desc     Create Products
 //@route    POST /api/v1/products
 //@access   Private/Admin
 exports.createProduct = asyncHandler(async (req, res, next) => {
-  res.json({ msg: 'Create Products' });
+  const product = await Product.create(req.body);
+  res.status(201).json({ success: true, product });
 });
 
 //@desc     Get Products

@@ -1,0 +1,32 @@
+[
+    {
+        "name":"Sandisk Ultra 128GB SDXC UHS-I Memory Card Upto 80mb/s",
+        "price": 45.89,
+        "description": "ltimate speeds to support professional camera use — Transfer speeds up to 300MB/s and recording speed UHS-II standard for reliable high-resolution photography and video recording — Capture 4K and 8K",
+        "ratings":4.5,
+        "images":[{
+            "public_id":"products/aznh7574fy6",
+            "url":"https://res.cloudinary.com/awais512/image/upload/v1606407053/zlyvhy25i85m86eqtjbr.jpg"
+        }],
+        "category":"Electronics",
+        "seller":"Amazon",
+        "stock":123,
+        "numOfReviews": 2671,
+        "reviews":[]
+    },
+    {
+        "name":"HP Ultra 128GB SDXC UHS-I Memory Card Upto 80mb/s",
+        "price": 40.89,
+        "description": "ltimate speeds to support professional camera use — Transfer speeds up to 300MB/s and recording speed UHS-II standard for reliable high-resolution photography and video recording — Capture 4K and 8K",
+        "ratings":4.5,
+        "images":[{
+            "public_id":"products/aznh7574fy6",
+            "url":"https://res.cloudinary.com/awais512/image/upload/v1606407053/zlyvhy25i85m86eqtjbr.jpg"
+        }],
+        "category":"Electronics",
+        "seller":"Amazon",
+        "stock":123,
+        "numOfReviews": 2671,
+        "reviews":[]
+    }
+]
