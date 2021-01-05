@@ -15,7 +15,9 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 //@route    GET /api/v1/products
 //@access   Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
-  const apiFeatures = new APIFeature(Product.find(), req.query).search();
+  const apiFeatures = new APIFeature(Product.find(), req.query)
+    .search()
+    .filter();
 
   const products = await apiFeatures.query;
 
