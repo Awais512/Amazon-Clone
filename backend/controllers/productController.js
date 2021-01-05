@@ -13,14 +13,21 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 //@route    GET /api/v1/products
 //@access   Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
-  res.json({ msg: 'Get all Products' });
+  const products = await Product.find({});
+
+  res.status(200).json({ success: true, count: products.length, products });
 });
 
 //@desc     Get Products
 //@route    GET /api/v1/products/:id
 //@access   Public
 exports.getProduct = asyncHandler(async (req, res, next) => {
-  res.json({ msg: 'Get single Product' });
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    return res.status(404).json({ error: 'Product not found' });
+  }
+
+  res.status(200).json({ success: true, product });
 });
 
 //@desc     Update Products
@@ -34,5 +41,11 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 //@route    DELETE /api/v1/products/:id
 //@access   Private/Admin
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
-  res.json({ msg: 'Delete Product' });
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    return res.status(404).json({ error: 'Product not found' });
+  }
+
+  await product.remove();
+  res.status(200).json({ msg: 'Product deleted successfully', data: {} });
 });
