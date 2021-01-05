@@ -3,9 +3,13 @@ const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 dotenv.config({ path: 'backend/config/config.env' });
+const connectDb = require('./config/db');
 
 //import route files
 const productRoutes = require('./routes/productRoutes');
+
+//Connect to Db
+connectDb();
 
 app.use(express.json());
 if (process.env.NODE_ENV === 'development') {
