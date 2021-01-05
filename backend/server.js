@@ -5,7 +5,7 @@ const connectDb = require('./config/db');
 const errorMiddleware = require('./middlewares/error');
 const dotenv = require('dotenv');
 
-//Handle Uncaught Exceptions
+//Handle Uncaught Exceptions`
 
 process.on('uncaughtException', (err) => {
   console.log(`Error: ${err.message}`);
