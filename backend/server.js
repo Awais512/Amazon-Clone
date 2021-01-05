@@ -1,5 +1,5 @@
-const app = require('./app');
 const express = require('express');
+const app = express();
 const morgan = require('morgan');
 const connectDb = require('./config/db');
 const errorMiddleware = require('./middlewares/error');
