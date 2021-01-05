@@ -19,5 +19,7 @@ exports.registeUsers = asyncHandler(async (req, res, next) => {
         'https://res.cloudinary.com/awais512/image/upload/v1609864174/avatar/awais_k3i2en.jpg',
     },
   });
-  res.status(201).json({ success: true, user });
+
+  const token = user.getJwtToken();
+  res.status(201).json({ success: true, token });
 });
