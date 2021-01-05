@@ -1,6 +1,7 @@
 const Product = require('../models/productModel');
 const asyncHandler = require('express-async-handler');
 const ErrorHandler = require('../utils/errorHandler');
+const APIFeature = require('../utils/apiFeatures');
 
 //@desc     Create Products
 //@route    POST /api/v1/products
@@ -14,7 +15,9 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 //@route    GET /api/v1/products
 //@access   Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
-  const products = await Product.find({});
+  const apiFeatures = new APIFeature(Product.find(), req.query).search();
+
+  const products = await apiFeatures.query;
 
   res.status(200).json({ success: true, count: products.length, products });
 });
