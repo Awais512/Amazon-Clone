@@ -17,6 +17,7 @@ dotenv.config({ path: 'backend/config/config.env' });
 
 //import route files
 const productRoutes = require('./routes/productRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 //Connect to Db
 connectDb();
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV === 'development') {
 
 //Mounting Routes Middleware
 app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/users', authRoutes);
 
 //Error Handler
 app.use(errorMiddleware);
