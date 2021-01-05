@@ -24,7 +24,9 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
 exports.getProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
-    return res.status(404).json({ error: 'Product not found' });
+    return res
+      .status(404)
+      .json({ success: false, message: 'Product not found' });
   }
 
   res.status(200).json({ success: true, product });
@@ -34,7 +36,20 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 //@route    PUT /api/v1/products/:id
 //@access   Private/Admin
 exports.updateProduct = asyncHandler(async (req, res, next) => {
-  res.json({ msg: 'Update Product' });
+  let product = await Product.findById(req.params.id);
+
+  if (!product) {
+    return res
+      .status(404)
+      .json({ success: false, message: 'Product not found' });
+  }
+
+  product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({ success: true, product });
 });
 
 //@desc     Delete Products
@@ -43,7 +58,9 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
-    return res.status(404).json({ error: 'Product not found' });
+    return res
+      .status(404)
+      .json({ success: false, message: 'Product not found' });
   }
 
   await product.remove();
