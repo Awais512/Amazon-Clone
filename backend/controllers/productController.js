@@ -15,13 +15,18 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 //@route    GET /api/v1/products
 //@access   Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
+  const resultPerPage = 10;
+  const productCount = await Product.countDocuments();
   const apiFeatures = new APIFeature(Product.find(), req.query)
     .search()
-    .filter();
+    .filter()
+    .pagination(resultPerPage);
 
   const products = await apiFeatures.query;
 
-  res.status(200).json({ success: true, count: products.length, products });
+  res
+    .status(200)
+    .json({ success: true, count: products.length, productCount, products });
 });
 
 //@desc     Get Products
