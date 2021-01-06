@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const connectDb = require('./config/db');
 const errorMiddleware = require('./middlewares/error');
@@ -23,6 +24,7 @@ const authRoutes = require('./routes/authRoutes');
 connectDb();
 
 app.use(express.json());
+app.use(cookieParser());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
