@@ -12,3 +12,17 @@ exports.isAuthenticated = asyncHandler(async (req, res, next) => {
   req.user = await User.findById(decoded.id);
   next();
 });
+
+exports.authorizeRole = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new ErrorHandler(
+          'You do not have permission to access this resource',
+          401
+        )
+      );
+    }
+    next();
+  };
+};
