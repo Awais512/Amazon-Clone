@@ -1,4 +1,3 @@
-//
 const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 const ErrorHandler = require('../utils/errorHandler');
@@ -22,4 +21,31 @@ exports.registeUsers = asyncHandler(async (req, res, next) => {
 
   const token = user.getJwtToken();
   res.status(201).json({ success: true, token });
+});
+
+//@desc     Login Users
+//@route    POST /api/v1/users/login
+//@access   Public
+exports.login = asyncHandler(async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return next(new ErrorHandler('Please enter email and password', 400));
+  }
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user) {
+    return next(new ErrorHandler('User not found', 404));
+  }
+
+  //Check if password is correct
+  const isPasswordMatch = await user.comparePassword(password);
+
+  if (!isPasswordMatch) {
+    return next(new ErrorHandler('Invalid email and password', 401));
+  }
+  const token = user.getJwtToken();
+  res.status(200).json({
+    success: true,
+    token,
+  });
 });
