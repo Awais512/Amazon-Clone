@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 const ErrorHandler = require('../utils/errorHandler');
 const sendToken = require('../utils/jwtToken');
+const sendEmail = require('../utils/sendEmail');
 
 //@desc     Register Users
 //@route    POST /api/v1/users
@@ -44,6 +45,47 @@ exports.login = asyncHandler(async (req, res, next) => {
     return next(new ErrorHandler('Invalid email and password', 401));
   }
   sendToken(user, 200, res);
+});
+
+//@desc     Logout Users
+//@route    POST /api/v1/users/forgotpassword
+//@access   Private
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new ErrorHandler('User does not exist in our database', 404));
+  }
+
+  //Get reset Token
+  const resetToken = user.getResetPasswordToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  //Create reset password url
+  const url = `${req.protocol}://${req.get(
+    'host'
+  )}/api/v1/password/reset/${resetToken}`;
+
+  const message = `Your password reset token is as follow:\n\n${url}\n\nIf you have not requested this email, then ignore it`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Amazon Password Recovery',
+      message,
+    });
+    res.status(200).json({
+      success: true,
+      message: `Email sent to: ${user.email}`,
+    });
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(new ErrorHandler(error.message, 500));
+  }
 });
 
 //@desc     Logout Users
