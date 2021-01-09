@@ -67,5 +67,9 @@ exports.getAllProfiles = asyncHandler(async (req, res, next) => {
 //@access   Private
 exports.getProfile = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
+  if (!user) {
+    return next(new ErrorHandler('User does not exist in our database', 404));
+  }
+
   res.status(200).json({ success: true, user });
 });
