@@ -31,3 +31,25 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
   await user.save();
   sendToken(user, 200, res);
 });
+
+//@desc     Update User Profile
+//@route    PUT /api/v1/users/me/update
+//@access   Private
+exports.updateProfile = asyncHandler(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+
+  //Update Avatar: TODO
+  let user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+  });
+
+  user.password = undefined;
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
