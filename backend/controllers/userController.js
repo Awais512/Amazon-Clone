@@ -73,3 +73,37 @@ exports.getProfile = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: true, user });
 });
+
+//@desc     Update User Profile by admin
+//@route    PUT /api/v1/users/admin/update/:id
+//@access   Private
+exports.updateProfileByAdmin = asyncHandler(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+
+  //Update Avatar: TODO
+  let user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+//@desc     Remove User Profile by admin
+//@route    DELETE /api/v1/users/admin/delete/:id
+//@access   Private
+exports.removeProfileByAdmin = asyncHandler(async (req, res, next) => {
+  await User.findByIdAndRemove(req.params.id);
+
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
