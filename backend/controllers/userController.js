@@ -53,3 +53,19 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
     user,
   });
 });
+
+//@desc     Get all User Profiles
+//@route    GET /api/v1/users
+//@access   Private
+exports.getAllProfiles = asyncHandler(async (req, res, next) => {
+  const users = await User.find();
+  res.status(200).json({ success: true, users });
+});
+
+//@desc     Get Profile
+//@route    GET /api/v1/users/:id
+//@access   Private
+exports.getProfile = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  res.status(200).json({ success: true, user });
+});
