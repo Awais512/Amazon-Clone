@@ -91,3 +91,16 @@ async function updateStock(id, quantity) {
   product.stock = product.stock - quantity;
   await product.save({ validateBeforeSave: false });
 }
+
+//@desc     Delete Order
+//@route    DELETE /api/v1/orders/:id
+//@access   Private/Admin
+exports.deleteOrders = asyncHandler(async (req, res, next) => {
+  const order = await Order.findByIdAndRemove();
+
+  if (!order) {
+    return next(new ErrorHandler('No order found', 404));
+  }
+
+  res.status(200).json({ success: true, msg: 'Order has been deleted' });
+});
