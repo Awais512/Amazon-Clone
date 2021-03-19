@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
-      cityt: {
+      city: {
         type: String,
         required: true,
       },
@@ -42,7 +42,7 @@ const orderSchema = new mongoose.Schema(
           required: true,
         },
         image: {
-          type: string,
+          type: String,
           required: true,
         },
         price: {
