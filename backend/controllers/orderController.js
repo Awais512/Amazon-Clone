@@ -64,3 +64,30 @@ exports.getOrders = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: true, orders });
 });
+
+//@desc     Update Order
+//@route    PUT /api/v1/orders
+//@access   Private/Admin
+exports.updateOrder = asyncHandler(async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order.status === 'Delievered') {
+    return next(new ErrorHandler('Order has been delievered', 400));
+  }
+
+  order.orderItems.forEach(async (item) => {
+    await updateStock(item.product, item.quantity);
+  });
+  order.orderStatus = req.body.status;
+  order.delieveredAt = Date.now();
+
+  await order.save();
+
+  res.status(200).json({ success: true, order });
+});
+
+async function updateStock(id, quantity) {
+  let product = await Product.findById(id);
+  product.stock = product.stock - quantity;
+  await product.save({ validateBeforeSave: false });
+}
