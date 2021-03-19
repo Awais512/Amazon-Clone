@@ -16,7 +16,7 @@ const {
 
 router.get('/', isAuthenticated, authorizeRole('admin'), getAllProfiles);
 router.get('/:id', isAuthenticated, authorizeRole('admin'), getProfile);
-router.get('/me', isAuthenticated, getUserProfile);
+router.get('/myprofile/me', isAuthenticated, getUserProfile);
 router.put('/password/update', isAuthenticated, updatePassword);
 router.put('/me/update', isAuthenticated, updateProfile);
 router.put(

@@ -50,18 +50,17 @@ exports.getOrder = asyncHandler(async (req, res, next) => {
 //@desc     Get LoggedIn user Order
 //@route    GET /api/v1/orders/me
 //@access   Private
-// exports.getLoggedInUserOrder = asyncHandler(async (req, res, next) => {
-//     const orders = await Order.find({ user: req.user.id });
+exports.getLoggedInUserOrder = asyncHandler(async (req, res, next) => {
+  const orders = await Order.find({ user: req.user.id });
 
-//     res.status(200).json({ success: true, orders });
-// });
+  res.status(200).json({ success: true, orders });
+});
 
-exports.getLoggedInUserOrder = async (req, res, next) => {
-  try {
-    const orders = await Order.find({ user: req.user.id });
+//@desc     Get all Order
+//@route    GET /api/v1/orders
+//@access   Private/Admin
+exports.getOrders = asyncHandler(async (req, res, next) => {
+  const orders = await Order.find();
 
-    res.status(200).json({ success: true, orders });
-  } catch (err) {
-    console.log(err);
-  }
-};
+  res.status(200).json({ success: true, orders });
+});
