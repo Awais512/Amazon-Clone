@@ -111,3 +111,12 @@ exports.createProductReview = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: true });
 });
+
+//@desc     Get Product Review
+//@route    GET /api/v1/product/review
+//@access   Public
+exports.getProductReview = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.query.id);
+
+  res.status(200).json({ success: true, reviews: product.reviews });
+});
