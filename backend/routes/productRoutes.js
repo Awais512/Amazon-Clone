@@ -7,6 +7,7 @@ const {
   deleteProduct,
   createProductReview,
   getProductReview,
+  deleteProductReview,
 } = require('../controllers/productController');
 const router = express.Router();
 const {
@@ -26,5 +27,8 @@ router
 
 router.route('/review/myreview').put(isAuthenticated, createProductReview);
 router.route('/review/allreviews').get(isAuthenticated, getProductReview);
+router
+  .route('/review/deletereview')
+  .delete(isAuthenticated, deleteProductReview);
 
 module.exports = router;

@@ -113,10 +113,38 @@ exports.createProductReview = asyncHandler(async (req, res, next) => {
 });
 
 //@desc     Get Product Review
-//@route    GET /api/v1/product/review
+//@route    GET /api/v1/product/review/allreviews
 //@access   Public
 exports.getProductReview = asyncHandler(async (req, res, next) => {
-  const product = await Product.findById(req.query.id);
+  const product = await Product.findById(req.query.productId);
 
   res.status(200).json({ success: true, reviews: product.reviews });
+});
+
+//@desc     Delete Product Review
+//@route    DELETE /api/v1/product/review/deletereview
+//@access   Public
+exports.deleteProductReview = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.query.id);
+
+  const reviews = product.reviews.filter(
+    (review) => review._id.toString() !== req.query.id.toString()
+  );
+  const numOfReviews = reviews.length;
+
+  const ratings =
+    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    reviews.length;
+
+  await Product.findByIdAndUpdate(
+    req.query.productId,
+    {
+      review,
+      ratings,
+      numOfReviews,
+    },
+    { new: true, runValidators: true }
+  );
+
+  res.status(200).json({ success: true });
 });
